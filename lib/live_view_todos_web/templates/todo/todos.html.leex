@@ -7,5 +7,6 @@
 <div>
   <%= checkbox(:todo, :done, phx_click: "toggle_done", phx_value: todo.id, value: todo.done) %>
   <%= todo.title %>
+  <%= raw "<button phx-click=\"todo_delete\" phx-value=\"#{todo.id}\" class=\"button-clear\">Delete</button>" %>
 </div>
 <% end %>

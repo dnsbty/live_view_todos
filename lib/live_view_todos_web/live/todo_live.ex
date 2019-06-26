@@ -36,6 +36,15 @@ defmodule LiveViewTodosWeb.TodoLive do
     {:noreply, assign(socket, todos: todos)}
   end
 
+  def handle_event("todo_delete", id, socket) do
+    todo = Todos.get_todo!(id)
+    Todos.delete_todo(todo)
+    todos = fetch_todos()
+
+    dispatch_changes(socket, "deleted", todos)
+    {:noreply, assign(socket, todos: todos)}
+  end
+
   # Send changes over Channels
   defp dispatch_changes(socket, event, todos) do
     #PubSub Socket Changes
