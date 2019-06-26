@@ -7,11 +7,6 @@ defmodule LiveViewTodos.Todos do
   alias LiveViewTodos.Repo
 
   alias LiveViewTodos.Todos.Todo
-  @topic inspect(__MODULE__)
-
-  def subscribe do
-    Phoenix.PubSub.subscribe(LiveViewTodos.PubSub, @topic)
-  end
 
   @doc """
   Returns the list of todos.
@@ -58,7 +53,6 @@ defmodule LiveViewTodos.Todos do
     %Todo{}
     |> Todo.changeset(attrs)
     |> Repo.insert()
-    |> broadcast_change([:todo, :created])
   end
 
   @doc """
@@ -77,7 +71,6 @@ defmodule LiveViewTodos.Todos do
     todo
     |> Todo.changeset(attrs)
     |> Repo.update()
-    |> broadcast_change([:todo, :updated])
   end
 
   @doc """
@@ -95,7 +88,6 @@ defmodule LiveViewTodos.Todos do
   def delete_todo(%Todo{} = todo) do
     todo
     |> Repo.delete()
-    |> broadcast_change([:todo, :deleted])
   end
 
   @doc """
@@ -109,11 +101,5 @@ defmodule LiveViewTodos.Todos do
   """
   def change_todo(%Todo{} = todo) do
     Todo.changeset(todo, %{})
-  end
-
-  defp broadcast_change({:ok, result}, event) do
-    Phoenix.PubSub.broadcast(LiveViewTodos.PubSub, @topic, {__MODULE__, event, result})
-
-    {:ok, result}
   end
 end
