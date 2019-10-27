@@ -5,7 +5,7 @@
 
 <%= for todo <- @todos do %>
 <div>
-  <%= checkbox(:todo, :done, phx_click: "toggle_done", phx_value: todo.id, value: todo.done) %>
+  <%= checkbox(:todo, :done, phx_click: "toggle_done", phx_value_id: todo.id, value: todo.done) %>
   <%= todo.title %>
 </div>
 <% end %>
